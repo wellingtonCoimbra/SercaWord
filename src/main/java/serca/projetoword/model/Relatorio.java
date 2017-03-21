@@ -3,6 +3,9 @@ package serca.projetoword.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Relatorio {
 	private String nome;
 	private Date data;
