@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class ItemAchado {
+public class ItemAchado implements Comparable<ItemAchado> {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -43,6 +43,11 @@ public class ItemAchado {
 
 	public void setAchado(Achado achado) {
 		this.achado = achado;
+	}
+
+	@Override
+	public int compareTo(ItemAchado o) {
+		return ((Integer)this.posicao).compareTo(o.getPosicao());
 	}
 
 	
