@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-
+//teste
 @Entity
 public class Relatorio {
 	private String nome;
