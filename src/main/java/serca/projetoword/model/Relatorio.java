@@ -4,15 +4,26 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
-//teste
-/*
- * Comentario
- */
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 @Entity
 public class Relatorio {
-	private String nome;
-	private Date data;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	private String nome;
+	
+	@OneToMany(mappedBy="relatorio")
+	private List<ItemAchado> itensCompra;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date data;
 
 	public int getId() {
 		return id;
