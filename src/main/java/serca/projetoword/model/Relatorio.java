@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.persistence.Entity;
 
+/*
+ * Comentario
+ */
 @Entity
 public class Relatorio {
 	private String nome;
