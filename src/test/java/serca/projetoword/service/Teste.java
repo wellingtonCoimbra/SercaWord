@@ -1,7 +1,6 @@
 package serca.projetoword.service;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import serca.projetoword.model.Achado;
@@ -10,8 +9,23 @@ import serca.projetoword.model.Relatorio;
 
 public class Teste {
 
-	public static void main(String[] args) throws IOException {
-		
+	public static void main(String[] args) throws Exception {
+
+		Relatorio r = createRelatorio();
+		gerarRelatorio(r, new GeradorDocApachePoi(), "ApachePoi_Example.docx");
+		gerarRelatorio(r, new GeradorDocDocx4j(), "Docx4j_Example.docx");
+
+	}
+
+	private static void gerarRelatorio(Relatorio r, GeradorRelatorio geradorDocApachePoi, String fileName)
+			throws Exception {
+		byte[] gerado = geradorDocApachePoi.gerar(r);
+		FileOutputStream output = new FileOutputStream(fileName);
+		output.write(gerado);
+		output.close();
+	}
+
+	private static Relatorio createRelatorio() {
 		Relatorio r = new Relatorio();
 		Achado a = new Achado();
 		a.setTexto("aaaaaaaaa aaaa aaaaaaaaaa aaaaaaaaaa aaaaaaa aaaaaaaaaa aaaaaaaaa aaaa aaaaaaaaaa aaaaaaaaaa aaaaaaa aaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaaa aaaaaaaaaa aaaaaaa aaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaaa aaaaaaaaaa aaaaaaa aaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaaa aaaaaaaaaa aaaaaaa aaaaaaaaaaaaaaaaaaa aaaa aaaaaaaaaa aaaaaaaaaa aaaaaaa aaaaaaaaaa");
@@ -24,7 +38,7 @@ public class Teste {
 		Achado e = new Achado();
 		e.setTexto("eee eeeee eeeeeeeee eeeeee eeeeeee eeeeeeeee eeeee eeeeee eee eeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee eeeeeeee eeeeee ");
 		r.setItens(new ArrayList<>());
-		
+
 		int i = 0;
 		for (int j = 0; j < 30; j++) {
 			addItem(r, a, i++);
@@ -33,12 +47,7 @@ public class Teste {
 			addItem(r, d, i++);
 			addItem(r, e, i++);
 		}
-		GeradorDocApachePoi geradorDocApachePoi = new GeradorDocApachePoi();
-		byte[] gerado = geradorDocApachePoi.gerar(r);
-		
-		FileOutputStream output = new FileOutputStream("Example.docx");
-		output.write(gerado);
-		output.close();
+		return r;
 	}
 
 	private static void addItem(Relatorio r, Achado a, int i) {
@@ -48,9 +57,9 @@ public class Teste {
 		item.setRelatorio(r);
 		r.getItens().add(item);
 	}
-	
-	
 
-	
+
+
+
 }
 

@@ -1,5 +1,7 @@
 package serca.projetoword.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -64,6 +66,13 @@ public class Relatorio {
 
 	public void setItens(List<ItemAchado> itens) {
 		this.itens = itens;
+	}
+	
+	public List<ItemAchado> getItensOrdenados(){
+		List<ItemAchado> itensOrdenados = new ArrayList<>();
+		itensOrdenados.addAll(this.getItens());
+		Collections.sort(itensOrdenados);
+		return itensOrdenados;
 	}
 	
 }
