@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!-- cabeçalho omitido -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:pe="http://primefaces.org/ui/extensions"
+    xmlns:p="http://primefaces.org/ui">
+ 
+     <h:head>
+     	<title>Edição Relatórios</title>
+     </h:head>
+ 
+     <h:body style="background-color:#75bad7;">
+	     <p:layout fullPage="true">
+	     		 
+		    <p:layoutUnit position="center" header="#{editorRelatorio.relatorio.nome}">
+		        <pe:ckEditor id="editor" value="#{editorRelatorio.texto}" interfaceColor="#75bad7" width="99%" height="350"> 
+				</pe:ckEditor>
+				<p:panelGrid columns="4" style="width:100%;text-align:center;">
+					<p:commandButton value="PDF" title="PDF" style="margin:10px;" />
+					<p:commandButton value="TXT" title="TXT" style="margin:10px;"/>
+					
+					<p:commandButton value="SALVAR" title="Salvar" style="margin:10px;" action="#{editorRelatorio.salvaRelatorio}"/>
+					<p:commandButton value="CANCELAR" title="Cancelar" style="margin:10px;" action="relatorios?faces-redirect=true" />
+				</p:panelGrid>				
+				
+		    </p:layoutUnit>
+		    
+		    <p:layoutUnit position="west" size="300" header="Achados">
+		        <p:dataTable var="achado" style="width:100%;" value="#{editorRelatorio.achados}">
+				    <p:column headerText="Achado">
+				        <h:outputText value="#{achado.texto}" />
+				    </p:column>
+				 
+				    <p:column headerText="Add" style="text-align:center;width:30%;">
+				    	<p:commandButton icon="ui-icon-plus" title="Add" update="editor form" actionListener="#{editorRelatorio.addAchado(achado)}" />
+				    </p:column>
+				</p:dataTable> 
+		    </p:layoutUnit>
+		    
+		    <p:layoutUnit position="east" size="300" header="Itens do Relatório">
+		        <h:form id="form">
+			 		<p:dataTable var="item" style="width:100%;" value="#{editorRelatorio.itens}" draggableRows="true">
+			 			<p:ajax event="rowReorder" listener="#{editorRelatorio.onRowReorder}" update="editor"/>
+	        	        <p:column headerText="Achado">
+				            <h:outputText value="#{item.achado.texto}" />
+				        </p:column>			 
+				        <p:column headerText="Excluir" style="text-align:center;width:30%;">
+				        	<p:commandButton icon="ui-icon-trash" title="Excluir" update="editor form" actionListener="#{editorRelatorio.excluiItem(item)}" />
+				        </p:column>
+				    </p:dataTable>
+		    	</h:form>
+		    </p:layoutUnit>
+		 	
+		</p:layout>
+     </h:body>
+</html>

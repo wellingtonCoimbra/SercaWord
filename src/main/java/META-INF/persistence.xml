@@ -3,9 +3,9 @@
 
 
 
-	<persistence-unit name="AlgumNome" transaction-type="JTA">
+	<persistence-unit name="_" transaction-type="JTA">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-		<jta-data-source>java:jboss/serca_word</jta-data-source>
+		<jta-data-source>java:jboss/serca_doc</jta-data-source>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.SQLServer2008Dialect" />

@@ -9,10 +9,19 @@ import javax.persistence.Id;
 public class Achado {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	private String texto;
+
+	public Achado(){
+		
+	}
+	
+	public Achado(int i, String string) {
+		this.id = new Long(i);
+		this.texto = string;
+	}
 
 	public String getTexto() {
 		return texto;

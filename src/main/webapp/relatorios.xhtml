@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!-- cabeçalho omitido -->
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+ 
+     <h:head>
+     	<title>Relatórios</title>
+     </h:head>
+ 
+     <h:body style="background-color:#75bad7;">
+	     <p:panel id="basic" header="Lista de Relatórios" style="margin-bottom:20px">
+	        <h:panelGrid columns="2" cellpadding="10">
+	        	<h:form>
+	            <p:dataTable var="relatorio" value="#{relatorioView.relatorios}">
+				    <p:column headerText="Relatório">
+				        <h:outputText value="#{relatorio.nome}" />
+				    </p:column>
+				 
+				    <p:column headerText="Editar" style="text-align:center;">
+				    	<p:commandButton icon="ui-icon-pencil" title="Editar" action="#{relatorioView.irParaEdicao(relatorio)}" >   
+						</p:commandButton>
+				    </p:column>
+				 
+				    <p:column headerText="PDF" style="text-align:center;">
+				    	<p:button icon="ui-icon-document" title="Icon Only">
+						    <f:param name="productId" value="30" />
+						</p:button>			    
+				    </p:column>
+				    
+				    <p:column headerText="TXT" style="text-align:center;">
+				    	<p:button icon="ui-icon-document" title="Icon Only">
+						    <f:param name="productId" value="30" />
+						</p:button>
+				    </p:column>
+				</p:dataTable>
+				</h:form>
+	        </h:panelGrid>
+	    </p:panel> 
+     </h:body>
+</html>

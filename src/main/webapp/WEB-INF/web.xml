@@ -14,7 +14,6 @@
 		<session-timeout>30</session-timeout>
 	</session-config>
 
-	<!-- LOADER OF SPRING CONTEXT -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -22,14 +21,6 @@
 		</param-value>
 	</context-param>
 
-	<!-- SPRING LISTENER -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
-	<listener>
-		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
-	</listener>
 
 	<!-- PRIMEFACES THEME CONFIG -->
 	<context-param>
@@ -52,17 +43,9 @@
 
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.faces</url-pattern>
+		<url-pattern>*.xhtml</url-pattern>
 	</servlet-mapping>
 	
 	<!-- SECURITY CONSTRAINT (BLOCK ACCESS OF CODE FROM XHTML) -->
-	<security-constraint>
-		<display-name>block-access-xhtml</display-name>
-		<web-resource-collection>
-			<web-resource-name>xhtml files</web-resource-name>
-			<url-pattern>*.xhtml</url-pattern>
-		</web-resource-collection>
-		<auth-constraint />
-	</security-constraint>
   
 </web-app>

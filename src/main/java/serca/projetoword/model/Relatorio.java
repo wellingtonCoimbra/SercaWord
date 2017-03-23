@@ -17,15 +17,24 @@ import javax.persistence.TemporalType;
 public class Relatorio {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	private String nome;
 	
 	@OneToMany(mappedBy="relatorio")
-	private List<ItemAchado> itensCompra;
+	private List<ItemAchado> itens;
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Date data;
+
+	public Relatorio(){
+	}
+	
+	public Relatorio(int i, String string) {
+		this.id = i;
+		this.nome = string;
+	}
+
 
 	public int getId() {
 		return id;
@@ -35,9 +44,6 @@ public class Relatorio {
 	public void setId(int id) {
 		this.id = id;
 	}
-
-
-	private List<ItemAchado> itens;
 
 	public List<ItemAchado> getItens() {
 		return itens;
