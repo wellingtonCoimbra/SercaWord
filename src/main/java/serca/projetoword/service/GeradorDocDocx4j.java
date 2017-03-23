@@ -21,8 +21,6 @@ import serca.projetoword.model.Relatorio;
 
 public class GeradorDocDocx4j implements GeradorRelatorio{
 
-//	static org.docx4j.wml.ObjectFactory factory = Context.getWmlObjectFactory(); 
-
 	@Override
 	public byte[] gerar(Relatorio relatorio) throws Exception {
 		
@@ -39,9 +37,6 @@ public class GeradorDocDocx4j implements GeradorRelatorio{
 			createNumberedParagraph(mdp,1L, 0L, "Subtitle", "Seção");
 			P p = mdp.addParagraphOfText(item.getAchado().getTexto());
 			
-//			PPr paragraphProperties = factory.createPPr();
-//			Jc justification = factory.createJc();
-
 			PPr paragraphProperties = new PPr();
 			Jc justification = new Jc();
 

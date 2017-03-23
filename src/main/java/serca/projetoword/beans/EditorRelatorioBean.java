@@ -22,6 +22,8 @@ import serca.projetoword.model.ItemAchado;
 import serca.projetoword.model.Relatorio;
 import serca.projetoword.service.GeradorDocApachePoi;
 import serca.projetoword.service.GeradorDocDocx4j;
+import serca.projetoword.service.GeradorDocDocx4jToHtml;
+import serca.projetoword.service.GeradorDocDocx4jToPdf;
 
 @ManagedBean(name="editorRelatorio")
 @ViewScoped
@@ -59,7 +61,7 @@ public class EditorRelatorioBean implements Serializable{
 		return this.relatorio.getItens();
 	}
 	
-	public void onRowReorder(ReorderEvent event) {
+	public void onRowReorder(ReorderEvent event) throws Exception {
 		this.atualizaTexto();
     }
 	
@@ -67,21 +69,22 @@ public class EditorRelatorioBean implements Serializable{
 		return this.texto;
 	}
 	
-	public void addAchado(Achado achado){
+	public void addAchado(Achado achado) throws Exception{
 		getItens().add(new ItemAchado(this.relatorio, achado));
 		this.atualizaTexto();		
 	}
 	
-	public void excluiItem(ItemAchado item){
+	public void excluiItem(ItemAchado item) throws Exception{
 		this.getItens().remove(item);
 		this.atualizaTexto();
 	}
 	
-	private void atualizaTexto(){
-		this.texto = "";
-		for(ItemAchado ia : getItens()){
-			this.texto += "<p>" + ia.getAchado().getTexto() + "</p>";
-		}
+	private void atualizaTexto() throws Exception{
+//		this.texto = "";
+//		for(ItemAchado ia : getItens()){
+//			this.texto += "<p>" + ia.getAchado().getTexto() + "</p>";
+//		}
+		this.texto = new String(new GeradorDocDocx4jToHtml().gerar(this.relatorio));
 	}
 	
 	public String salvaRelatorio(){
@@ -99,11 +102,11 @@ public class EditorRelatorioBean implements Serializable{
 	}
 	
 //	 'docx'  => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-//			  'xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-//			  'word'  => 'application/msword',
-//			  'xls'   => 'application/excel',
-//			  'pdf'   => 'application/pdf'
-//			  'psd'   => 'application/x-photoshop'
+//	  'xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+//	  'word'  => 'application/msword',
+//	  'xls'   => 'application/excel',
+//	  'pdf'   => 'application/pdf'
+//	  'psd'   => 'application/x-photoshop'
 	public StreamedContent impressaoDOCDox4j() throws Exception{
 		System.out.println("EditorRelatorioBean.impressaoDOCDox4j()");
 		byte[] content = new GeradorDocDocx4j().gerar(this.relatorio);
@@ -118,7 +121,7 @@ public class EditorRelatorioBean implements Serializable{
 	}
 
 	public StreamedContent impressaoPDF() throws Exception{
-		byte[] content = new GeradorDocDocx4j().gerar(this.relatorio);
+		byte[] content = new GeradorDocDocx4jToPdf().gerar(this.relatorio);
 		this.file = downloadContent(content, "application/pdf", "Relatorio.pdf");
 		return this.file;
 	}
@@ -129,7 +132,10 @@ public class EditorRelatorioBean implements Serializable{
 			impressaoDOCDox4j();
 		}else if(doc.equals("docPoi")){
 			impressaoDOCApachePoi();
+		}else if(doc.equals("pdf")){
+			impressaoPDF();
 		}
+			
 		if(!relatorio.getItens().isEmpty()){
 			return file;
 		}
