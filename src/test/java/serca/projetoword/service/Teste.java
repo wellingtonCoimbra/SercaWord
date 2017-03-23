@@ -12,9 +12,9 @@ public class Teste {
 	public static void main(String[] args) throws Exception {
 
 		Relatorio r = createRelatorio();
-		gerarRelatorio(r, new GeradorDocApachePoi(), "ApachePoi_Example.docx");
+//		gerarRelatorio(r, new GeradorDocApachePoi(), "ApachePoi_Example.docx");
 		gerarRelatorio(r, new GeradorDocDocx4j(), "Docx4j_Example.docx");
-		gerarRelatorio(r, new GeradorDocDocx4jToHtml(), "Docx4j_Example.html");
+//		gerarRelatorio(r, new GeradorDocDocx4jToHtml(), "Docx4j_Example.html");
 
 	}
 

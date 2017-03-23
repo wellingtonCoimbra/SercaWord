@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 public class ItemAchado implements Comparable<ItemAchado> {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
 	private int posicao;

@@ -5,18 +5,20 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 import org.primefaces.event.ReorderEvent;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
+import serca.projetoword.dao.AchadoDAO;
+import serca.projetoword.dao.RelatorioDAO;
 import serca.projetoword.model.Achado;
 import serca.projetoword.model.ItemAchado;
 import serca.projetoword.model.Relatorio;
@@ -28,12 +30,12 @@ import serca.projetoword.service.GeradorDocDocx4jToPdf;
 @ManagedBean(name="editorRelatorio")
 @ViewScoped
 public class EditorRelatorioBean implements Serializable{
-	private Relatorio relatorio = new Relatorio(1, "Relatorio 1");	
-	private List<Achado> achados = Arrays.asList(new Achado(1, "ACHADO 1"), 
-			new Achado(2, "ACHADO 2"), 
-			new Achado(3, "ACHADO 3"), 
-			new Achado(4, "ACHADO 4"), 
-			new Achado(5, "ACHADO 5"));
+	private Relatorio relatorio;
+	@Inject
+	private RelatorioDAO relatorioDao;
+	@Inject
+	private AchadoDAO achadoDao;
+	private List<Achado> achados;
 	
 	private String texto = "";
 	
@@ -42,11 +44,15 @@ public class EditorRelatorioBean implements Serializable{
 	@PostConstruct
 	public void init() {
 	     Relatorio relatorio = (Relatorio) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("relatorio");
+	     System.out.println("EditorRelatorioBean.init() "+relatorio.getItens().size());
 	     this.relatorio = relatorio;
 	     if(relatorio == null){
 	    	 relatorio = new Relatorio(); 
 	     }
-	    this.relatorio.setItens(new ArrayList<>());
+	     if(relatorio.getItens() == null){
+	    	 this.relatorio.setItens(new ArrayList<>());
+	     }
+	    this.achados = this.achadoDao.listar();
 	}
 	
 	public Relatorio getRelatorio(){
@@ -88,6 +94,7 @@ public class EditorRelatorioBean implements Serializable{
 	}
 	
 	public String salvaRelatorio(){
+		this.relatorioDao.salvar(this.relatorio);
 		return "relatorios?faces-redirect=true";
 	}
 	

@@ -5,26 +5,30 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 public class Relatorio {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	private String nome;
 	
-	@OneToMany(mappedBy="relatorio")
+	@OneToMany(mappedBy="relatorio", cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	private List<ItemAchado> itens;
 	
-	@Temporal(TemporalType.DATE)
+//	@Temporal(TemporalType.DATE)
+	@Transient
 	private Date data;
 
 	public Relatorio(){
