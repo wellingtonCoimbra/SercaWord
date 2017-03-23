@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 
 import org.docx4j.XmlUtils;
-import org.docx4j.jaxb.Context;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.NumberingDefinitionsPart;
@@ -22,7 +21,7 @@ import serca.projetoword.model.Relatorio;
 
 public class GeradorDocDocx4j implements GeradorRelatorio{
 
-	static org.docx4j.wml.ObjectFactory factory = Context.getWmlObjectFactory(); 
+//	static org.docx4j.wml.ObjectFactory factory = Context.getWmlObjectFactory(); 
 
 	@Override
 	public byte[] gerar(Relatorio relatorio) throws Exception {
@@ -40,8 +39,12 @@ public class GeradorDocDocx4j implements GeradorRelatorio{
 			createNumberedParagraph(mdp,1L, 0L, "Subtitle", "Seção");
 			P p = mdp.addParagraphOfText(item.getAchado().getTexto());
 			
-			PPr paragraphProperties = factory.createPPr();
-			Jc justification = factory.createJc();
+//			PPr paragraphProperties = factory.createPPr();
+//			Jc justification = factory.createJc();
+
+			PPr paragraphProperties = new PPr();
+			Jc justification = new Jc();
+
 			justification.setVal(JcEnumeration.BOTH);
 			paragraphProperties.setJc(justification);
 			p.setPPr(paragraphProperties);
@@ -57,16 +60,19 @@ private static P createNumberedParagraph(MainDocumentPart mdp, long numId, long 
 		P p = mdp.addStyledParagraphOfText(estilo, texto);
 	    org.docx4j.wml.PPr ppr = p.getPPr();	    
 	    // Create and add <w:numPr>
-	    NumPr numPr =  factory.createPPrBaseNumPr();
+//	    NumPr numPr =  factory.createPPrBaseNumPr();
+	    NumPr numPr =  new NumPr();
 	    ppr.setNumPr(numPr);
 	    
 	    // The <w:ilvl> element
-	    Ilvl ilvlElement = factory.createPPrBaseNumPrIlvl();
+//	    Ilvl ilvlElement = factory.createPPrBaseNumPrIlvl();
+	    Ilvl ilvlElement = new Ilvl();
 	    numPr.setIlvl(ilvlElement);
 	    ilvlElement.setVal(BigInteger.valueOf(ilvl));
 	    	    
 	    // The <w:numId> element
-	    NumId numIdElement = factory.createPPrBaseNumPrNumId();
+//	    NumId numIdElement = factory.createPPrBaseNumPrNumId();
+	    NumId numIdElement =  new NumId(); 
 	    numPr.setNumId(numIdElement);
 	    numIdElement.setVal(BigInteger.valueOf(numId));
 	    
@@ -184,7 +190,7 @@ private static P createNumberedParagraph(MainDocumentPart mdp, long numId, long 
 			Jc align = new Jc();
 			align.setVal(hAlign);
 			
-			PPr pprop = factory.createPPr();
+			PPr pprop = new PPr();
 			pprop.setJc(align);
 			p.setPPr(pprop);
 	}

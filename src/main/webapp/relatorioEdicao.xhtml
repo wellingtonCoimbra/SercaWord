@@ -18,11 +18,23 @@
 		        <pe:ckEditor id="editor" value="#{editorRelatorio.texto}" interfaceColor="#75bad7" width="99%" height="350"> 
 				</pe:ckEditor>
 				<p:panelGrid columns="4" style="width:100%;text-align:center;">
-					<p:commandButton value="PDF" title="PDF" style="margin:10px;" />
-					<p:commandButton value="TXT" title="TXT" style="margin:10px;"/>
-					
-					<p:commandButton value="SALVAR" title="Salvar" style="margin:10px;" action="#{editorRelatorio.salvaRelatorio}"/>
-					<p:commandButton value="CANCELAR" title="Cancelar" style="margin:10px;" action="relatorios?faces-redirect=true" />
+					<h:form>
+						<p:commandButton value="PDF" title="PDF" style="margin:10px;" action="#{editorRelatorio.impressaoPDF}"/>
+	
+						<p:commandButton value="DOC docx4j" ajax="false" immediate="true" icon="ui-icon-arrowthick-1-s">
+							<p:fileDownload value="#{editorRelatorio.getFile('docx4j')}" />>
+						</p:commandButton>
+
+						<p:commandButton value="DOC apache poi" ajax="false" immediate="true" icon="ui-icon-arrowthick-1-s">
+							<p:fileDownload value="#{editorRelatorio.getFile('docPoi')}" />
+						</p:commandButton>
+	    				
+						
+						<p:commandButton value="DOC apache poi" title="DOC" style="margin:10px;" action="#{editorRelatorio.impressaoDOCApachePoi()}"/>
+						
+						<p:commandButton value="SALVAR" title="Salvar" style="margin:10px;" action="#{editorRelatorio.salvaRelatorio}"/>
+						<p:commandButton value="CANCELAR" title="Cancelar" style="margin:10px;" action="relatorios?faces-redirect=true" />
+					</h:form>
 				</p:panelGrid>				
 				
 		    </p:layoutUnit>

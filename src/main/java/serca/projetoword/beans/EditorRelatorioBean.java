@@ -1,6 +1,8 @@
 package serca.projetoword.beans;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,10 +14,14 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import org.primefaces.event.ReorderEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 import serca.projetoword.model.Achado;
 import serca.projetoword.model.ItemAchado;
 import serca.projetoword.model.Relatorio;
+import serca.projetoword.service.GeradorDocApachePoi;
+import serca.projetoword.service.GeradorDocDocx4j;
 
 @ManagedBean(name="editorRelatorio")
 @ViewScoped
@@ -26,14 +32,19 @@ public class EditorRelatorioBean implements Serializable{
 			new Achado(3, "ACHADO 3"), 
 			new Achado(4, "ACHADO 4"), 
 			new Achado(5, "ACHADO 5"));
-	private List<ItemAchado> itens = new ArrayList<ItemAchado>();
 	
 	private String texto = "";
+	
+	private StreamedContent file;
 	
 	@PostConstruct
 	public void init() {
 	     Relatorio relatorio = (Relatorio) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("relatorio");
 	     this.relatorio = relatorio;
+	     if(relatorio == null){
+	    	 relatorio = new Relatorio(); 
+	     }
+	    this.relatorio.setItens(new ArrayList<>());
 	}
 	
 	public Relatorio getRelatorio(){
@@ -45,7 +56,7 @@ public class EditorRelatorioBean implements Serializable{
 	}
 	
 	public List<ItemAchado> getItens(){
-		return this.itens;
+		return this.relatorio.getItens();
 	}
 	
 	public void onRowReorder(ReorderEvent event) {
@@ -57,18 +68,18 @@ public class EditorRelatorioBean implements Serializable{
 	}
 	
 	public void addAchado(Achado achado){
-		itens.add(new ItemAchado(this.relatorio, achado));
+		getItens().add(new ItemAchado(this.relatorio, achado));
 		this.atualizaTexto();		
 	}
 	
 	public void excluiItem(ItemAchado item){
-		this.itens.remove(item);
+		this.getItens().remove(item);
 		this.atualizaTexto();
 	}
 	
 	private void atualizaTexto(){
 		this.texto = "";
-		for(ItemAchado ia : itens){
+		for(ItemAchado ia : getItens()){
 			this.texto += "<p>" + ia.getAchado().getTexto() + "</p>";
 		}
 	}
@@ -77,4 +88,53 @@ public class EditorRelatorioBean implements Serializable{
 		return "relatorios?faces-redirect=true";
 	}
 	
+	private StreamedContent downloadContent(byte[] content, String contenType, String fileName){
+		try {
+			InputStream is = new ByteArrayInputStream(content);
+			return new DefaultStreamedContent(is, contenType, fileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+//	 'docx'  => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+//			  'xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+//			  'word'  => 'application/msword',
+//			  'xls'   => 'application/excel',
+//			  'pdf'   => 'application/pdf'
+//			  'psd'   => 'application/x-photoshop'
+	public StreamedContent impressaoDOCDox4j() throws Exception{
+		System.out.println("EditorRelatorioBean.impressaoDOCDox4j()");
+		byte[] content = new GeradorDocDocx4j().gerar(this.relatorio);
+		this.file = downloadContent(content, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Relatorio.docx");
+		return this.file;
+	}
+
+	public StreamedContent impressaoDOCApachePoi() throws Exception{
+		byte[] content = new GeradorDocApachePoi().gerar(this.relatorio);
+		this.file = downloadContent(content, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Relatorio.docx");
+		return this.file;
+	}
+
+	public StreamedContent impressaoPDF() throws Exception{
+		byte[] content = new GeradorDocDocx4j().gerar(this.relatorio);
+		this.file = downloadContent(content, "application/pdf", "Relatorio.pdf");
+		return this.file;
+	}
+
+	
+	public StreamedContent getFile(String doc) throws Exception {
+		if(doc.equals("docx4j")){
+			impressaoDOCDox4j();
+		}else if(doc.equals("docPoi")){
+			impressaoDOCApachePoi();
+		}
+		if(!relatorio.getItens().isEmpty()){
+			return file;
+		}
+		return null;
+			
+	}
 }
+
