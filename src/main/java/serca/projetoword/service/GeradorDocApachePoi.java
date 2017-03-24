@@ -4,7 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
 
+import org.apache.poi.xwpf.converter.core.openxmlformats.styles.paragraph.ParagraphAlignmentValueProvider;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFAbstractNum;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFHeader;
@@ -27,7 +29,8 @@ public class GeradorDocApachePoi implements GeradorRelatorio{
 		XWPFHeaderFooterPolicy headerPolicy = doc.createHeaderFooterPolicy();
 		XWPFHeader header = headerPolicy.createHeader(STHdrFtr.DEFAULT);
 		XWPFRun runHeader = header.getParagraphArray(0).createRun();
-		runHeader.setText("--------------------- Cabecalho ---------------------");
+		runHeader.setText("Tribunal de Código do Estado");
+		runHeader.setFontSize(28);
 
 		/** Preparando numeracao */
 		CTAbstractNum cTAbstractNum = CTAbstractNum.Factory.newInstance();
@@ -59,7 +62,9 @@ public class GeradorDocApachePoi implements GeradorRelatorio{
 			p.createRun().setText(item.getAchado().getNome());;
 
 			p = doc.createParagraph();
+			p.setAlignment(ParagraphAlignment.BOTH);
 			XWPFRun run = p.createRun();
+			
 			run.setText(item.getAchado().getTexto());
 			run.addBreak();
 		}

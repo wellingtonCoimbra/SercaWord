@@ -163,7 +163,7 @@ public class HeaderFooterCreate {
 		r.setRPr(rpr);
 
 		HpsMeasure sz = new HpsMeasure();
-		BigInteger fontSize = BigInteger.valueOf(58);
+		BigInteger fontSize = BigInteger.valueOf(40);
 		sz.setVal(fontSize);
 		rpr.setSz(sz);
 

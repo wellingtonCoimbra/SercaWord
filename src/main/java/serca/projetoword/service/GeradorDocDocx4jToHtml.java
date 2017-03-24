@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.docx4j.Docx4J;
+import org.docx4j.Docx4jProperties;
 import org.docx4j.convert.out.ConversionFeatures;
 import org.docx4j.convert.out.HTMLSettings;
 import org.docx4j.convert.out.html.SdtToListSdtTagHandler;
@@ -28,6 +29,7 @@ public class GeradorDocDocx4jToHtml implements GeradorRelatorio{
 		HTMLSettings htmlSettings = Docx4J.createHTMLSettings();
 		htmlSettings.setWmlPackage(wordMLPackage);
 		configEstiloNumeracao(htmlSettings);
+		Docx4jProperties.setProperty("docx4j.Convert.Out.HTML.OutputMethodXML", true);
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		
 		Docx4J.toHTML(htmlSettings, os, Docx4J.FLAG_EXPORT_PREFER_XSL);
