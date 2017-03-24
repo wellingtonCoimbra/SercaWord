@@ -47,7 +47,7 @@
 		    <p:layoutUnit position="west" size="300" header="Achados">
 		        <p:dataTable var="achado" style="width:100%;" value="#{editorRelatorio.achados}">
 				    <p:column headerText="Achado">
-				        <h:outputText value="#{achado.texto}" />
+				        <h:outputText value="#{achado.nome}" />
 				    </p:column>
 				 
 				    <p:column headerText="Add" style="text-align:center;width:30%;">
@@ -61,7 +61,7 @@
 			 		<p:dataTable var="item" style="width:100%;" value="#{editorRelatorio.itens}" draggableRows="true">
 			 			<p:ajax event="rowReorder" listener="#{editorRelatorio.onRowReorder}" update="editor"/>
 	        	        <p:column headerText="Achado">
-				            <h:outputText value="#{item.achado.texto}" />
+				            <h:outputText value="#{item.achado.nome}" />
 				        </p:column>			 
 				        <p:column headerText="Excluir" style="text-align:center;width:30%;">
 				        	<p:commandButton icon="ui-icon-trash" title="Excluir" update="editor form" actionListener="#{editorRelatorio.excluiItem(item)}" />

@@ -56,7 +56,7 @@ public class GeradorDocApachePoi implements GeradorRelatorio{
 
 			XWPFParagraph p = doc.createParagraph();
 			p.setNumID(numID);
-			p.createRun().setText("Seção ");;
+			p.createRun().setText(item.getAchado().getNome());;
 
 			p = doc.createParagraph();
 			XWPFRun run = p.createRun();

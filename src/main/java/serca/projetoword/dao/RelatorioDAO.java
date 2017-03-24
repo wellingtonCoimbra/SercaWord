@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
+import serca.projetoword.model.ItemAchado;
 import serca.projetoword.model.Relatorio;
 
 @Stateless
@@ -26,7 +27,13 @@ public class RelatorioDAO implements Serializable{
 	
 	public List<Relatorio> listar(){
 		TypedQuery<Relatorio> query = em.createQuery("Select r from Relatorio r", Relatorio.class);
-		return query.getResultList();
+		List<Relatorio> resultList = query.getResultList();
+		System.out.println("RelatorioDAO.listar()" +resultList.size());
+		return resultList;
 	}
 
+	public void deleteItem(ItemAchado item){
+		em.remove(item);
+		
+	}
 }

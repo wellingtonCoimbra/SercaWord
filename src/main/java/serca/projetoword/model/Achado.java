@@ -12,16 +12,9 @@ public class Achado {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	private String texto;
-
-	public Achado(){
-		
-	}
+	private String nome;
 	
-	public Achado(int i, String string) {
-		this.id = new Long(i);
-		this.texto = string;
-	}
+	private String texto;
 
 	public String getTexto() {
 		return texto;
@@ -30,5 +23,23 @@ public class Achado {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
+	
 
 }

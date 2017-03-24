@@ -37,7 +37,7 @@ public class GeradorDocDocx4j implements GeradorRelatorio{
 		ndp.setJaxbElement( (Numbering) XmlUtils.unmarshalString(initialNumbering) );
 
 		for (ItemAchado item : relatorio.getItensOrdenados()) {
-			createNumberedParagraph(mdp,1L, 0L, "Subtitle", "Seção");
+			createNumberedParagraph(mdp,1L, 0L, "Subtitle", item.getAchado().getNome());
 			P p = mdp.addParagraphOfText(item.getAchado().getTexto());
 
 			PPr paragraphProperties = new PPr();

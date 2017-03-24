@@ -12,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
@@ -31,19 +29,9 @@ public class Relatorio {
 	@Transient
 	private Date data;
 
-	public Relatorio(){
-	}
-	
-	public Relatorio(int i, String string) {
-		this.id = i;
-		this.nome = string;
-	}
-
-
 	public int getId() {
 		return id;
 	}
-
 
 	public void setId(int id) {
 		this.id = id;

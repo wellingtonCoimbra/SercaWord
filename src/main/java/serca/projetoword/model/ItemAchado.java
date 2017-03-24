@@ -21,15 +21,6 @@ public class ItemAchado implements Comparable<ItemAchado> {
 	@ManyToOne
 	private Relatorio relatorio;
 	
-	public ItemAchado(){
-		
-	}
-	
-	public ItemAchado(Relatorio relatorio2, Achado achado2) {
-		this.relatorio = relatorio2;
-		this.achado = achado2;
-	}
-
 	public Relatorio getRelatorio() {
 		return relatorio;
 	}
