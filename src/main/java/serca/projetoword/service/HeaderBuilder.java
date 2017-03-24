@@ -41,7 +41,7 @@ public class HeaderBuilder {
 
 		// After addTargetPart, so image can be added properly
 		headerPart.setJaxbElement(getHdr(wordprocessingMLPackage, headerPart));
-
+		
 		return rel;
 	}
 
@@ -81,7 +81,6 @@ public class HeaderBuilder {
 //						"filename", "alttext", 1, 2
 //						)
 //				);
-//		P p = new P();
 		R r = new R();
 		Text t = new Text();
 
@@ -95,15 +94,12 @@ public class HeaderBuilder {
 
 		PPr paragraphProperties = new PPr();
 		Jc justification = new Jc();
-		
 
 		justification.setVal(JcEnumeration.BOTH);
 		paragraphProperties.setJc(justification);
-//		p.setPPr(paragraphProperties);
 		
 		t.setValue("Tribunal de Código do Estado");
 		r.getContent().add(t);
-//		p.getContent().add(r);
 		hdr.getContent().add(r);
 		return hdr;
 

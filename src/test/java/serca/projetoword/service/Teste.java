@@ -13,8 +13,8 @@ public class Teste {
 
 		Relatorio r = createRelatorio();
 //		gerarRelatorio(r, new GeradorDocApachePoi(), "ApachePoi_Example.docx");
-//		gerarRelatorio(r, new GeradorDocDocx4j(), "Docx4j_Example.docx");
-		gerarRelatorio(r, new GeradorDocDocx4jToPdf(), "PDF_Example.pdf");
+		gerarRelatorio(r, new GeradorDocDocx4j(), "Docx4j_Example.docx");
+//		gerarRelatorio(r, new GeradorDocDocx4jToPdf(), "PDF_Example.pdf");
 //		gerarRelatorio(r, new GeradorDocDocx4jToHtml(), "Docx4j_Example.html");
 
 	}

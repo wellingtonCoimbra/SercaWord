@@ -7,10 +7,10 @@ import org.docx4j.XmlUtils;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.openpackaging.parts.WordprocessingML.NumberingDefinitionsPart;
-import org.docx4j.relationships.Relationship;
 import org.docx4j.wml.Jc;
 import org.docx4j.wml.JcEnumeration;
 import org.docx4j.wml.Numbering;
+import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.P;
 import org.docx4j.wml.PPr;
 import org.docx4j.wml.PPrBase.NumPr;
@@ -21,7 +21,7 @@ import serca.projetoword.model.ItemAchado;
 import serca.projetoword.model.Relatorio;
 
 public class GeradorDocDocx4j implements GeradorRelatorio{
-
+	private static ObjectFactory factory = new ObjectFactory();
 	@Override
 	public byte[] gerar(Relatorio relatorio) throws Exception {
 
@@ -31,13 +31,14 @@ public class GeradorDocDocx4j implements GeradorRelatorio{
 
 		NumberingDefinitionsPart ndp = new NumberingDefinitionsPart();
 		wordMLPackage.getMainDocumentPart().addTargetPart(ndp);
-
-		addHeader(wordMLPackage);
-
+//		new HearderBuilder().createHeaderPart
+//		addHeader(wordMLPackage);
+		HeaderFooterCreate.addHeader(wordMLPackage);
 		ndp.setJaxbElement( (Numbering) XmlUtils.unmarshalString(initialNumbering) );
 
 		for (ItemAchado item : relatorio.getItensOrdenados()) {
 			createNumberedParagraph(mdp,1L, 0L, "Subtitle", item.getAchado().getNome());
+			
 			P p = mdp.addParagraphOfText(item.getAchado().getTexto());
 
 			PPr paragraphProperties = new PPr();
@@ -53,22 +54,58 @@ public class GeradorDocDocx4j implements GeradorRelatorio{
 		return baos.toByteArray();
 	}
 
-	private void addHeader(WordprocessingMLPackage wordMLPackage) throws Exception {
-
-
-		MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
-		Relationship styleRel = mdp.getStyleDefinitionsPart().getSourceRelationships().get(0);
-		mdp.getRelationshipsPart().removeRelationship(styleRel);		
-
-		HeaderBuilder hb = new HeaderBuilder();
-		// OK, the guts of this sample:
-		// The 2 things you need:
-		// 1. the Header part
-		Relationship relationship = hb.createHeaderPart(wordMLPackage);
-		// 2. an entry in SectPr
-		hb.createHeaderReference(wordMLPackage, relationship);
-
-	}
+//	private void addHeader(WordprocessingMLPackage wordMLPackage) throws Exception {
+//		
+//		HeaderPart headerPart = new HeaderPart();
+//		Relationship rel =  wordMLPackage.getMainDocumentPart()
+//				.addTargetPart(headerPart);
+//		
+//		Hdr hdr = factory.createHdr();
+//		org.docx4j.wml.P  par = factory.createP(); 
+//		SectPr sectPr = factory.createSectPr();
+//		PPr ppr = factory.createPPr();
+//		ppr.setSectPr(sectPr);
+//		Jc jus = new Jc();
+//		jus.setVal(JcEnumeration.CENTER);
+//		ppr.setJc(jus);
+//		par.setPPr(ppr);
+//		
+//		
+//		Text text = factory.createText();
+//		text.setValue("Tribunal de Codigo do Estado");
+//		
+//		
+//		sectPr.setTitlePg(new BooleanDefaultTrue());
+//		R run = factory.createR();
+//		RPr rpr = new RPr();
+//		run.setRPr(rpr);
+//		HpsMeasure sz = new HpsMeasure();
+//		BigInteger fontSize = BigInteger.valueOf(30);
+//		sz.setVal(fontSize);
+//		rpr.setSz(sz);
+//
+//		run.getContent().add(text);
+//		par.getContent().add(run);
+//		
+//		
+////		mainContent.add(0,par);
+//		hdr.getContent().add(par);
+//		headerPart.setJaxbElement(hdr);
+//
+////		MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+////		Relationship styleRel = mdp.getStyleDefinitionsPart().getSourceRelationships().get(0);
+////		mdp.getRelationshipsPart().removeRelationship(styleRel);		
+////
+////		HeaderBuilder hb = new HeaderBuilder();
+////		// OK, the guts of this sample:
+////		// The 2 things you need:
+////		
+////		// 1. the Header part
+////		Relationship relationship = hb.createHeaderPart(wordMLPackage);
+////		// 2. an entry in SectPr
+////		hb.createHeaderReference(wordMLPackage, relationship);
+//
+//	}
 
 
 	private static P createNumberedParagraph(MainDocumentPart mdp, long numId, long ilvl, String estilo, String texto) {

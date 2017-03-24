@@ -21,6 +21,7 @@
 package serca.projetoword.service;
 
 import java.io.File;
+import java.math.BigInteger;
 import java.util.List;
 
 import org.docx4j.Docx4J;
@@ -38,8 +39,16 @@ import org.docx4j.utils.BufferUtil;
 import org.docx4j.wml.Hdr;
 import org.docx4j.wml.HdrFtrRef;
 import org.docx4j.wml.HeaderReference;
+import org.docx4j.wml.HpsMeasure;
+import org.docx4j.wml.Jc;
+import org.docx4j.wml.JcEnumeration;
 import org.docx4j.wml.ObjectFactory;
+import org.docx4j.wml.P;
+import org.docx4j.wml.PPr;
+import org.docx4j.wml.R;
+import org.docx4j.wml.RPr;
 import org.docx4j.wml.SectPr;
+import org.docx4j.wml.Text;
 
 /**
  * Create a WordML Pkg and add a header to it.
@@ -78,6 +87,19 @@ public class HeaderFooterCreate {
 		Docx4J.save(wordMLPackage, new File("OUT_HeaderFooterCreate.docx") );
 	}
 	
+	public static void addHeader(WordprocessingMLPackage wordMLPackage) throws Exception{
+		MainDocumentPart mdp = wordMLPackage.getMainDocumentPart();
+		Relationship styleRel = mdp.getStyleDefinitionsPart().getSourceRelationships().get(0);
+		mdp.getRelationshipsPart().removeRelationship(styleRel);		
+
+		// OK, the guts of this sample:
+		// The 2 things you need:
+		// 1. the Header part
+		Relationship relationship = createHeaderPart(wordMLPackage);
+		// 2. an entry in SectPr
+		createHeaderReference(wordMLPackage, relationship);
+	}
+	
 	public static Relationship createHeaderPart(
 			WordprocessingMLPackage wordprocessingMLPackage)
 			throws Exception {
@@ -88,7 +110,7 @@ public class HeaderFooterCreate {
 		
 		// After addTargetPart, so image can be added properly
 		headerPart.setJaxbElement(getHdr(wordprocessingMLPackage, headerPart));
-
+		
 		return rel;
 	}
 
@@ -120,17 +142,45 @@ public class HeaderFooterCreate {
 
 		Hdr hdr = objectFactory.createHdr();
 		
-		File file = new File(System.getProperty("user.dir") 
-				+ "/src/test/resources/images/greentick.png" );
-		java.io.InputStream is = new java.io.FileInputStream(file );
+//		File file = new File(System.getProperty("user.dir") 
+//				+ "/src/test/resources/images/greentick.png" );
 		
-		hdr.getContent().add(
-				newImage(wordprocessingMLPackage,
-						sourcePart, 
-						BufferUtil.getBytesFromInputStream(is), 
-						"filename", "alttext", 1, 2
-						)
-		);
+//		java.io.InputStream is = HeaderFooter.class.getResourceAsStream("/resources/images/greentick.png");
+		
+//		hdr.getContent().add(
+//				newImage(wordprocessingMLPackage,
+//						sourcePart, 
+//						BufferUtil.getBytesFromInputStream(is), 
+//						"filename", "alttext", 1, 2
+//						)
+//		);
+		
+		
+		R r = new R();
+		Text t = new Text();
+
+		RPr rpr = new RPr();
+		r.setRPr(rpr);
+
+		HpsMeasure sz = new HpsMeasure();
+		BigInteger fontSize = BigInteger.valueOf(58);
+		sz.setVal(fontSize);
+		rpr.setSz(sz);
+
+		PPr paragraphProperties = new PPr();
+		Jc justification = new Jc();
+
+		justification.setVal(JcEnumeration.CENTER);
+		paragraphProperties.setJc(justification);
+		
+		t.setValue("Tribunal de Código do Estado");
+		r.getContent().add(t);
+//		hdr.getContent().add(r);
+		
+		P e = new P();
+		e.setPPr(paragraphProperties);
+		e.getContent().add(r);
+		hdr.getContent().add(e);
 		return hdr;
 
 	}
