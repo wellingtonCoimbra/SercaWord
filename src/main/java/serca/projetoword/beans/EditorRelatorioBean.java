@@ -45,19 +45,18 @@ public class EditorRelatorioBean implements Serializable{
 
 	@PostConstruct
 	public void init() throws Exception {
-		Relatorio relatorio = (Relatorio) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("relatorio");
-		System.out.println("EditorRelatorioBean.init() "+relatorio.getItens().size());
-		this.relatorio = relatorio;
-		if(relatorio == null){
-			relatorio = new Relatorio(); 
+		this.relatorio = (Relatorio) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("relatorio");		
+		if(this.relatorio == null){
+			this.relatorio = new Relatorio();
 		}
-		if(relatorio.getItens() == null){
+		if(this.relatorio.getItens() == null){
 			this.relatorio.setItens(new ArrayList<>());
 		}
 		this.atualizaTexto();
 		this.achados = this.achadoDao.listar();
 	}
 
+	
 	public Relatorio getRelatorio(){
 		return this.relatorio;
 	}

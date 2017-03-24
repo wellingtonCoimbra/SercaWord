@@ -19,6 +19,8 @@
 	     <p:panel id="basic" header="Lista de Relatórios" style="margin-bottom:20px">
 	        <h:panelGrid columns="2" cellpadding="10">
 	        	<h:form>
+	        	<p:commandButton title="Novo" action="relatorioEdicao?faces-redirect=true">
+	        	</p:commandButton>
 	            <p:dataTable var="relatorio" value="#{relatorioView.relatorios}">
 				    <p:column headerText="Relatório">
 				        <h:outputText value="#{relatorio.nome}" />

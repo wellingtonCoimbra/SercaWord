@@ -19,28 +19,47 @@
 	     <p:layout fullPage="true">
 	     		 
 		    <p:layoutUnit position="center" header="#{editorRelatorio.relatorio.nome}">
-		        <pe:ckEditor id="editor" value="#{editorRelatorio.texto}" 
+			        <pe:ckEditor id="editor" value="#{editorRelatorio.texto}" 
 		        interfaceColor="#75bad7" width="99%" height="350" toolbar="[]"> 
-				</pe:ckEditor>
-				<p:panelGrid columns="4" style="width:100%;text-align:center;">
+					</pe:ckEditor>
 					<h:form>
+						<p:panelGrid style="width:100%;text-align:center;">
+								<p:row>
+									<p:column colspan="5">
+										<p:inputText value="#{editorRelatorio.relatorio.nome}"> 
+										</p:inputText>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column >
+									
+									<p:commandButton value="DOC docx4j" ajax="false" immediate="true" icon="ui-icon-arrowthick-1-s">
+										<p:fileDownload value="#{editorRelatorio.getFile('docx4j')}" />
+									</p:commandButton>
+									</p:column>
+									<p:column >
+			
+									<p:commandButton value="DOC apache poi" ajax="false" immediate="true" icon="ui-icon-arrowthick-1-s">
+										<p:fileDownload value="#{editorRelatorio.getFile('docPoi')}" />
+									</p:commandButton>
+									</p:column>
 
-						<p:commandButton value="DOC docx4j" ajax="false" immediate="true" icon="ui-icon-arrowthick-1-s">
-							<p:fileDownload value="#{editorRelatorio.getFile('docx4j')}" />
-						</p:commandButton>
-
-						<p:commandButton value="DOC apache poi" ajax="false" immediate="true" icon="ui-icon-arrowthick-1-s">
-							<p:fileDownload value="#{editorRelatorio.getFile('docPoi')}" />
-						</p:commandButton>
-	    				
-						<p:commandButton value="PDF" ajax="false" immediate="true" icon="ui-icon-arrowthick-1-s">
-							<p:fileDownload value="#{editorRelatorio.getFile('pdf')}" />
-						</p:commandButton>
-						
-						<p:commandButton value="SALVAR" title="Salvar" style="margin:10px;" action="#{editorRelatorio.salvaRelatorio}"/>
-						<p:commandButton value="CANCELAR" title="Cancelar" style="margin:10px;" action="relatorios?faces-redirect=true" />
+									<p:column >
+				    				
+									<p:commandButton value="PDF" ajax="false" immediate="true" icon="ui-icon-arrowthick-1-s">
+										<p:fileDownload value="#{editorRelatorio.getFile('pdf')}" />
+									</p:commandButton>
+									</p:column>
+									<p:column >
+									
+									<p:commandButton value="SALVAR" title="Salvar" style="margin:10px;" action="#{editorRelatorio.salvaRelatorio}"/>
+									</p:column>
+									<p:column >
+										<p:commandButton value="CANCELAR" title="Cancelar" style="margin:10px;" action="relatorios?faces-redirect=true" />
+									</p:column>
+								</p:row>
+						</p:panelGrid>				
 					</h:form>
-				</p:panelGrid>				
 				
 		    </p:layoutUnit>
 		    
